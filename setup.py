@@ -18,7 +18,7 @@ setup(
     description="Triển khai Python của trình mô phỏng blockchain Proof-of-Stake",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/pos-simulator-python",
+    url="https://github.com/mluan204/PoS_Simulator",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",
