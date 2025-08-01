@@ -45,7 +45,7 @@ def save_results_to_json(results, filename):
     
     with open(f'results/{filename}', 'w', encoding='utf-8') as f:
         json.dump(serializable_results, f, indent=2, ensure_ascii=False)
-    print(f" Dữ liệu đã lưu: results/{filename}")
+    print(f"Dữ liệu đã lưu: results/{filename}")
 
 
 def run_single_experiment(pos_algorithm, experiment_name, starting_gini=0.3):
@@ -115,8 +115,8 @@ def run_single_experiment(pos_algorithm, experiment_name, starting_gini=0.3):
     
     plt.tight_layout()
     filename = experiment_name.lower().replace(' ', '_').replace(':', '')
-    plt.savefig(f'pos_simulator_python/results/{filename}_results.png', dpi=300, bbox_inches='tight')
-    print(f"Biểu đồ đã lưu: pos_simulator_python/results/{filename}_results.png")
+    plt.savefig(f'results/{filename}_results.png', dpi=300, bbox_inches='tight')
+    print(f"Biểu đồ đã lưu: results/{filename}_results.png")
     plt.show()
     
     # Lưu dữ liệu
@@ -161,7 +161,7 @@ def run_comparison_experiment():
     # Tham số chung cho tất cả algorithms
     base_params = {
         'n_epochs': 20000,
-        'initial_stake_volume': 50000.0,
+        'initial_stake_volume': 5000.0,
         'initial_distribution': Distribution.GINI,
         'n_peers': 10000,
         'n_corrupted': 50,
@@ -254,7 +254,8 @@ def run_comparison_experiment():
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig('pos_simulator_python/results/gini_comparison.png', dpi=300, bbox_inches='tight')
+    plt.savefig('results/gini_comparison.png', dpi=300, bbox_inches='tight')
+    print("Biểu đồ Gini đã lưu: results/gini_comparison.png")
     plt.show()
     
     # Vẽ biểu đồ 2: Nakamoto Coefficient Comparison
@@ -271,6 +272,7 @@ def run_comparison_experiment():
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     plt.savefig('results/nakamoto_comparison.png', dpi=300, bbox_inches='tight')
+    print("Biểu đồ Nakamoto đã lưu: results/nakamoto_comparison.png")
     plt.show()
     
     # Vẽ biểu đồ 3: Peers Count Comparison
@@ -287,6 +289,7 @@ def run_comparison_experiment():
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     plt.savefig('results/peers_comparison.png', dpi=300, bbox_inches='tight')
+    print("Biểu đồ Peers Count đã lưu: results/peers_comparison.png")
     plt.show()
     
     # Thống kê chi tiết
@@ -298,8 +301,12 @@ def run_comparison_experiment():
     for name, result in results.items():
         print(f"{name:<20} {result['final_gini']:<12.3f} {result['final_nakamoto']:<15} {result['final_peers']:<12}")
     
-
+    # Tìm algorithm tốt nhất cho từng metric
+    best_gini = min(results.items(), key=lambda x: x[1]['final_gini'])
+    best_nakamoto = max(results.items(), key=lambda x: x[1]['final_nakamoto'])
     
+    print(f"\nBest for lowest Gini: {best_gini[0]} ({best_gini[1]['final_gini']:.3f})")
+    print(f"Best for highest Nakamoto: {best_nakamoto[0]} ({best_nakamoto[1]['final_nakamoto']})")
 
     # Lưu dữ liệu
     save_results_to_json(results, 'all_pos_comparison_data.json')
@@ -310,7 +317,7 @@ def run_comparison_experiment():
 
 def main():
     """Chạy thí nghiệm PoS Simulator"""
-    print("🔬 PoS Simulator - So sánh 5 Thuật toán Proof-of-Stake")
+    print("PoS Simulator - So sánh 5 Thuật toán Proof-of-Stake")
     print("=" * 60)
     
     # Đặt seed ngẫu nhiên để tái tạo được kết quả
@@ -319,7 +326,7 @@ def main():
     
     # Tạo thư mục kết quả
     os.makedirs("results", exist_ok=True)
-    print("Thư mục 'pos_simulator_python/results' đã được tạo để lưu biểu đồ")
+    print("Thư mục 'results' đã được tạo để lưu biểu đồ")
     
     try:
         while True:
@@ -332,7 +339,7 @@ def main():
             print("6. So sánh tất cả 5 thuật toán")
             print("7. Thoát")
             
-            choice = input("\nNhập lựa chọn (1-6): ").strip()
+            choice = input("\nNhập lựa chọn (1-7): ").strip()
             
             if choice == "1":
                 print("\n" + "=" * 60)
