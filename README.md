@@ -239,11 +239,8 @@ make all               # Cài đặt, test và chạy examples
 - **Corruption**: Mô phỏng hành vi malicious validators
 - **Penalty/Reward**: Hệ thống thưởng phạt cho validators
 
-## Tác giả
+## Dự án gốc
 
-- Alberto Leporati (`alberto.leporati@unimib.it`)
-- Lorenzo Rovida (`lorenzo.rovida@unimib.it`)
+Đây là phiên bản Python của dự án gốc được viết bằng Julia:
 
-Được tạo với ❤️ tại [Bicocca Security Lab](https://www.bislab.unimib.it), tại University of Milan-Bicocca.
-
-<img src="imgs/lab_logo.png" alt="BisLab logo" width=20%>
+**Dự án gốc (Julia)**: [https://github.com/lorenzorovida/PoS-Simulator](https://github.com/lorenzorovida/PoS-Simulator)
