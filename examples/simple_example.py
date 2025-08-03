@@ -19,6 +19,7 @@ from simulator import simulate
 from utils import generate_peers, gini
 
 
+
 def save_results_to_json(results, filename):
     """Lưu kết quả thí nghiệm dưới dạng JSON"""
     # Chuyển đổi numpy arrays thành list để có thể serialize
@@ -54,9 +55,9 @@ def run_single_experiment(pos_algorithm, experiment_name, starting_gini=0.3):
     
     # Thiết lập tham số chung
     params = Parameters(
-        n_epochs=20000,
+        n_epochs=250000,
         proof_of_stake=pos_algorithm,
-        initial_stake_volume=50000.0,
+        initial_stake_volume=5000.0,
         initial_distribution=Distribution.GINI,
         n_peers=10000,
         n_corrupted=50,
@@ -89,34 +90,43 @@ def run_single_experiment(pos_algorithm, experiment_name, starting_gini=0.3):
     print(f"  Final Nakamoto: {nakamoto_history[-1]}")
     print(f"  Final Peers: {peers_history[-1]}")
     
-    # Vẽ biểu đồ triple: Gini, Nakamoto và Peers Count
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(20, 6))
-    
-    # Subplot 1: Gini Coefficient
-    ax1.plot(gini_history, linewidth=2, color='blue', alpha=0.8)
-    ax1.set_title(f'{experiment_name} - Gini Coefficient', fontsize=14, fontweight='bold')
-    ax1.set_xlabel('Epoch')
-    ax1.set_ylabel('Gini Coefficient')
-    ax1.grid(True, alpha=0.3)
-    
-    # Subplot 2: Nakamoto Coefficient
-    ax2.plot(nakamoto_history, linewidth=2, color='red', alpha=0.8)
-    ax2.set_title(f'{experiment_name} - Nakamoto Coefficient', fontsize=14, fontweight='bold')
-    ax2.set_xlabel('Epoch')
-    ax2.set_ylabel('Nakamoto Coefficient')
-    ax2.grid(True, alpha=0.3)
-    
-    # Subplot 3: Peers Count
-    ax3.plot(peers_history, linewidth=2, color='green', alpha=0.8)
-    ax3.set_title(f'{experiment_name} - Peers Count', fontsize=14, fontweight='bold')
-    ax3.set_xlabel('Epoch')
-    ax3.set_ylabel('Number of Peers')
-    ax3.grid(True, alpha=0.3)
-    
-    plt.tight_layout()
+    # Tạo filename cho biểu đồ
     filename = experiment_name.lower().replace(' ', '_').replace(':', '')
-    plt.savefig(f'results/{filename}_results.png', dpi=300, bbox_inches='tight')
-    print(f"Biểu đồ đã lưu: results/{filename}_results.png")
+    
+    # Vẽ biểu đồ 1: Gini Coefficient
+    plt.figure(figsize=(12, 8))
+    plt.plot(gini_history, linewidth=2, color='blue', alpha=0.8)
+    plt.title(f'{experiment_name} - Gini Coefficient', fontsize=16, fontweight='bold')
+    plt.xlabel('Epoch')
+    plt.ylabel('Gini Coefficient')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(f'results/{filename}_gini.png', dpi=300, bbox_inches='tight')
+    print(f"Biểu đồ Gini đã lưu: results/{filename}_gini.png")
+    plt.show()
+    
+    # Vẽ biểu đồ 2: Nakamoto Coefficient
+    plt.figure(figsize=(12, 8))
+    plt.plot(nakamoto_history, linewidth=2, color='red', alpha=0.8)
+    plt.title(f'{experiment_name} - Nakamoto Coefficient', fontsize=16, fontweight='bold')
+    plt.xlabel('Epoch')
+    plt.ylabel('Nakamoto Coefficient')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(f'results/{filename}_nakamoto.png', dpi=300, bbox_inches='tight')
+    print(f"Biểu đồ Nakamoto đã lưu: results/{filename}_nakamoto.png")
+    plt.show()
+    
+    # Vẽ biểu đồ 3: Peers Count
+    plt.figure(figsize=(12, 8))
+    plt.plot(peers_history, linewidth=2, color='green', alpha=0.8)
+    plt.title(f'{experiment_name} - Peers Count', fontsize=16, fontweight='bold')
+    plt.xlabel('Epoch')
+    plt.ylabel('Number of Peers')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(f'results/{filename}_peers.png', dpi=300, bbox_inches='tight')
+    print(f"Biểu đồ Peers Count đã lưu: results/{filename}_peers.png")
     plt.show()
     
     # Lưu dữ liệu
@@ -160,7 +170,7 @@ def run_comparison_experiment():
     
     # Tham số chung cho tất cả algorithms
     base_params = {
-        'n_epochs': 20000,
+        'n_epochs': 250000,
         'initial_stake_volume': 5000.0,
         'initial_distribution': Distribution.GINI,
         'n_peers': 10000,
@@ -171,7 +181,7 @@ def run_comparison_experiment():
         'p_leave': 0.001,
         'join_amount': NewEntry.NEW_RANDOM,
         'penalty_percentage': 0.5,
-        'reward': 200.0
+        'reward': 20.0
     }
 
         #     n_epochs=20000,
